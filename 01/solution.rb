@@ -13,20 +13,13 @@ end
 
 class Range
   def fizzbuzz
-    rng = self
-    newrng = []
-    rng.each do |cur|
-      if (cur % 15) == 0
-        newrng[cur - 1] = :fizzbuzz
-      elsif (cur % 5) == 0
-        newrng[cur - 1] = :buzz
-      elsif (cur % 3) == 0
-        newrng[cur - 1] = :fizz
-      else
-        newrng[cur - 1] = cur
+    map do |n|
+      if (n % 15).zero? then :fizzbuzz
+      elsif (n % 5).zero? then :buzz
+      elsif (n % 3).zero? then :fizz
+      else n
       end
     end
-    newrng
   end
 end
 
