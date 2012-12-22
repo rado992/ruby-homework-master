@@ -1,17 +1,12 @@
 class Integer
   def is_prime?
-    2.upto(pred).all? { |i| remainder(i) != 0 }
+    2.upto(pred).all? { |i| remainder(i).nonzero? }
   end
 
   def prime_divisors
-    divisors_list = []
-    number = abs
-    2.upto(number) do |n|
-      if remainder(n).zero? and n.is_prime?
-        divisors_list << n
-      end
+    2.upto(abs).select do
+      remainder(n).zero? and n.is_prime?
     end
-    divisors_list
   end
 end
 
@@ -88,6 +83,3 @@ class Array
     counts
   end
 end
-
-
-p 4620.prime_divisors
