@@ -56,23 +56,8 @@ end
 
 class Array
   def densities
-    symbols = self
-    counts = []
-    cnt = 0
-    temp = 0
-    symbols.each do |sym|
-      cnt = cnt + 1
+    map do |element|
+      count element
     end
-    cnt = cnt - 1
-    0.upto cnt do |x|
-      0.upto cnt do |y|
-        if symbols[x] == symbols[y]
-          temp = temp + 1
-        end
-      end
-      counts << temp
-      temp = 0
-    end
-    counts
   end
 end
