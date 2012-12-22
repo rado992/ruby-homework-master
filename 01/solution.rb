@@ -1,8 +1,7 @@
 class Integer
   def prime_divisors
     div = []
-    num = self
-    num = num < 0 ? num * (-1) : num
+    num = self.abs
     2.upto(num) do |cur|
       isprime = true
       2.upto(cur - 1) do |check|
@@ -93,16 +92,3 @@ class Array
     counts
   end
 end
-
-#p (1...60).fizzbuzz
-#p (1...60).fizzbuzz
-#p 4620.prime_divisors
-#p = { a: 4, b: 2, c: 1, d: 4 }
-#p p.group_values
-#p [:a, :b, :a, :baba, :a, :b].densities
-
-
-
-
-
-
