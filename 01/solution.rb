@@ -1,21 +1,17 @@
 class Integer
+  def is_prime?
+    2.upto(pred).all? { |i| remainder(i) != 0 }
+  end
+
   def prime_divisors
-    div = []
-    num = self.abs
-    2.upto(num) do |cur|
-      isprime = true
-      2.upto(cur - 1) do |check|
-        if (cur % check) == 0
-          isprime = false
-          break
-        end
+    divisors_list = []
+    number = abs
+    2.upto(number) do |n|
+      if remainder(n).zero? and n.is_prime?
+        divisors_list << n
       end
-      if (num % cur) == 0 and isprime
-        div << cur
-      end
-      isprime = true
     end
-    div
+    divisors_list
   end
 end
 
@@ -92,3 +88,6 @@ class Array
     counts
   end
 end
+
+
+p 4620.prime_divisors
