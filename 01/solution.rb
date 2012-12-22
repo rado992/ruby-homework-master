@@ -25,34 +25,16 @@ end
 
 class Hash
   def group_values
-    oldhash = self
-    newhash = Hash.new
-    curkeys = []
-    curval = 0
-    is_included = false
-
-    oldhash.each do |key, val|
-      curval = val
-
-      newhash.each do |nkey, nval|
-        if nval == val
-          is_included = true
-        end
-      end
-
-      oldhash.each do |tempkey, tempval|
-        if is_included == false and (curval == tempval)
-          curkeys << tempkey
-        end
-      end
-
-      newhash = newhash.merge({curval => curkeys})
-      curkeys = []
-      is_included = false
+    result = {}
+    each do |key, value|
+      result[value] ||= []
+      result[value] << key
     end
-    newhash
   end
 end
+
+p = { a: 4, b: 2, c: 1, d: 4 }
+p p.group_values
 
 class Array
   def densities
