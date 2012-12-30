@@ -53,18 +53,12 @@ class Collection
     @song_array.map(&:album).uniq
   end
 
-  def filter(criterium)
-    coll = Collection.new("")
-    coll.song_array = self.song_array.select do |song|
-      meets_criterium(criterium, song)
-    end
-    coll
+  def filter(criteria)
+    Collection.new @song_array.select { |song| criteria.matches? song }
   end
 
   def adjoin(other_coll)
-    new_coll = self
-    new_coll.song_array |= other_coll.song_array
-    new_coll
+    Collection.new self.songs | other_coll.songs
   end
 end
 
