@@ -1,5 +1,5 @@
 class Song
-  attr_accessor :name, :artist, :album
+  attr_reader :name, :artist, :album
 
   def initialize(name, artist, album)
     @name = name
@@ -18,17 +18,16 @@ module FilterHelper
 end
 
 class Collection
-  attr_accessor :song_array, :name_list, :artist_list, :album_list
-
+  #attr_accessor :song_array, :name_list, :artist_list, :album_list
   include Enumerable
 
   include FilterHelper
 
+  attr_reader :song_array
+
   def initialize(text)
-    self.song_array, self.name_list = [], []
-    self.artist_list, self.album_list = [], []
-    text.split("\n").each_slice(4) do |name, artist, album|
-      self.song_array << Song.new(name, artist, album)
+    song_array = text.split("\n").each_slice(4).map do |name, artist, album|
+      Song.new name.chomp, artist.chomp, album.chomp
     end
   end
 
