@@ -62,42 +62,37 @@ class Collection
   end
 end
 
-class Criteria
-  class << self
-    attr_accessor :criteria_hash
+module Criteria
+  def name(song_name)
+    Criterion.new { |song| song.name == song_name }
+
+  def artist(song_artist)
+    Criterion.new { |song| song.artist == song_artist }
   end
 
-  @criteria_hash = Hash.new
+  def album(song_album)
+    Criterion.new { |song| song.artist == song_album }
+  end
+end
 
-  def initialize
-    self.class.criteria_hash = { names: [], arts: [], albs: [] }
+class Criterion
+  def initialize(&block)
+    @predicate = block
   end
 
-  def self.name(song_name)
-    self.criteria_hash[:names] << song_name
-    self.criteria_hash[:arts] = []
-    self.criteria_hash[:albs] = []
-    self.criteria_hash
+  def matches?(song)
+    @predicate.(song)
   end
 
-  def self.artist(song_artist)
-    self.criteria_hash[:names] = []
-    self.criteria_hash[:arts] << song_artist
-    self.criteria_hash[:albs] = []
-    self.criteria_hash
+  def !
+    Criterion.new { |song| not matches?(song) }
   end
 
-  def self.album(song_album)
-    self.criteria_hash[:names] = []
-    self.criteria_hash[:arts] = []
-    self.criteria_hash[:albs] << song_album
-    self.criteria_hash
+  def &(other)
+    Criterion.new { |song| self.matches?(song) and other.matches?(song) }
   end
 
-  def & (other_crit)
-    @m_names = criteria_hash[:names].merge(other.crit.criteria_hash[:names])
-    @m_arts = criteria_hash[:arts].merge(other.crit.criteria_hash[:arts])
-    @m_albs = criteria_hash[:albs].merge(other.crit.criteria_hash[:albs])
-    Hash.new({ names: @m_names, arts: @m_arts, albs: @m_albs })
+  def |(other)
+    Criterion.new { |song| self.matches?(song) or other.matches?(song) }
   end
 end
