@@ -1,17 +1,17 @@
 class Validations
   def self.email?(value)
-    (/(?x)\A[A-Za-z0-9][\w|\.|\+|\-]{,200}[\@]
-    ([A-Za-z0-9][A-Za-z0-9\-]{,60}([A-Za-z0-9]?\.)){1,2}
+    (/(?x)\A[[:alnum:]][\w|\.|\+|\-]{,200}[\@]
+    ([[:alnum:]][[:alnum:]\-]{,60}([[:alnum:]]?\.)){1,2}
     (([A-Za-z]{2,3})(\z|\.[A-Za-z]{2}\z))/.match value) ? true : false
   end
 
   def self.hostname?(value)
-    (/(?x)\A([A-Za-z0-9][A-Za-z0-9\-]{,60}(([A-Za-z0-9]?)\.)){1,2}
+    (/(?x)\A([[:alnum:]][[:alnum:]\-]{,60}(([[:alnum:]]?)\.)){1,2}
     (([A-Za-z]{2,3})(\z|\.[A-Za-z]{2}\z))/.match value) ? true : false
   end
 
   def self.phone?(value)
-    (/\A(?<prefix>(00|\+)[1-9][0-9]{,2}|[0])([ \(\)\-]{,2}[0-9]){6,11}\z/.match value) ? true : false
+    (/\A(?<prefix>(00|\+)[1-9][[:digit:]]{,2}|[0])([ \(\)\-]{,2}[0-9]){6,11}\z/.match value) ? true : false
   end
 
   def self.ip_address?(value)
@@ -76,8 +76,8 @@ class PrivacyFilter
   end
 
   def email_regex
-    /(?x)(?<mail>[A-Za-z0-9][\w|\.|\+|\-]{,200})(?<host>[\@]
-    ([A-Za-z0-9][A-Za-z0-9\-]{,60}([A-Za-z0-9]?\.)){1,2}
+    /(?x)(?<mail>[[:alnum:]][\w|\.|\+|\-]{,200})(?<host>[\@]
+    ([[:alnum:]][[:alnum:]\-]{,60}([[:alnum:]]?\.)){1,2}
     (([A-Za-z]{2,3})((\.[A-Za-z]{2})?)))/
   end
 
@@ -88,3 +88,6 @@ class PrivacyFilter
     filtered
   end
 end
+
+p Validations.hostname?("radvarb-4n0vtoo2.com.usa")
+p Validations.phone?("003188 71(66)7 740-0")
