@@ -25,10 +25,9 @@ end
 
 class Hash
   def group_values
-    result = {}
-    each do |key, value|
-      result[value] ||= []
-      result[value] << key
+    each_with_object({}) do |(key, value), hash|
+      hash[value] ||= []
+      hash[value] << key
     end
   end
 end
