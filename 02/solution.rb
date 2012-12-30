@@ -25,20 +25,32 @@ class Collection
 
   attr_reader :song_array
 
-  def initialize(text)
+  def self.parse(text)
     song_array = text.split("\n").each_slice(4).map do |name, artist, album|
       Song.new name.chomp, artist.chomp, album.chomp
     end
+
+    new song_array
   end
 
-  def self.parse(text)
-    Collection.new(text)
+  def initialize(text)
+    @song_array = song_array
   end
 
-  def each
-    song_array.each do |song|
-      yield song
-    end
+  def each(&block)
+    @song_array.each(&block)
+  end
+
+  def names
+    @song_array.map(&:name).uniq
+  end
+
+  def artists
+    @song_array.map(&:artist).uniq
+  end
+
+  def albums
+    @song_array.map(&:album).uniq
   end
 
   def filter(criterium)
@@ -53,27 +65,6 @@ class Collection
     new_coll = self
     new_coll.song_array |= other_coll.song_array
     new_coll
-  end
-
-  def names
-    @song_array.each do |song|
-      @name_list << song.name
-    end
-    @name_list.uniq
-  end
-
-  def artists
-    @song_array.each do |song|
-      @artist_list << song.artist
-    end
-    @artist_list.uniq
-  end
-
-  def albums
-    @song_array.each do |song|
-      @album_list << song.album
-    end
-    @album_list.uniq
   end
 end
 
