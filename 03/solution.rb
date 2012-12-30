@@ -76,7 +76,7 @@ class Variable < Unary
         return replacement
       end
     end
-    raise "Variable not found!"
+    raise "And went the horse into the river!"
   end
 
   def derive(variable)
@@ -98,7 +98,8 @@ class Sine < Unary
   end
 
   def derive(variable)
-    Cosine.new(@operand).simplify
+    operand_derivative = @operand.derive(variable).simplify
+    Multiplication.new(Cosine.new(@operand).simplify, operand_derivative)
   end
 end
 
@@ -116,7 +117,8 @@ class Cosine < Unary
   end
 
   def derive(variable)
-    (-Sine.new(@operand).simplify).simplify
+    operand_derivative = @operand.derive(variable).simplify
+    Multiplication.new((-Sine.new(@operand).simplify).simplify, operand_derivative)
   end
 end
 
@@ -207,8 +209,6 @@ class Multiplication < Binary
     left_func = @right_operand.simplify
     right_func = @left_operand.simplify
     right_der = @right_operand.derive(variable).simplify
-    left_part = (left_der * left_part).simplify
-    right_part = (right_part * right_der).simplify
-    (left_part + right_part).simplify
+    ((left_der * left_part).simplify + (right_part * right_der).simplify).simplify
   end
 end
